@@ -1,0 +1,39 @@
+﻿
+@model UIInventario.Models.SucursalModelView
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Nombre</h2>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-6">
+            <table class="table table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código de Barras</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                </tr>
+                @foreach (var item in Model.Productos)
+                {
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td>@item.CodigoBarras</td>
+                        <td>@item.Cantidad</td>
+                        <td>@item.PrecioUnitario</td>
+                    </tr>
+
+                }
+
+            </table>
+        </div>
+        <div class="col-lg-6">
+            ALGO
+        </div>
+    </div>
+</div>
+
+

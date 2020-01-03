@@ -1,0 +1,42 @@
+﻿@using UIInventario.Models;
+
+@model IEnumerable<SucursalModelView>
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sucursales</h2>
+
+<div class="jumbotron">
+    @foreach (var item in Model)
+    {
+        <h2>@item.Nombre</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Código Barras</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitrio</th>
+                    </tr>
+
+                    @foreach (var producto in item.Productos)
+                    {
+                        <tr>
+                            <td>@producto.Nombre</td>
+                            <td>@producto.CodigoBarras</td>
+                            <td>@producto.Cantidad</td>
+                            <td>@producto.PrecioUnitario</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    }
+
+
+</div>
+

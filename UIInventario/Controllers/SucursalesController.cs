@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Web.Mvc;
 using UIInventario.Models;
@@ -40,10 +41,23 @@ namespace UIInventario.Controllers
 
         // POST: Sucursales/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(SucursalModelView collection)
         {
             try
             {
+                using (var client = new HttpClient())
+                {
+                    var json = JsonSerializer.Serialize(collection);
+                    var response = client.PostAsync("http://localhost:50647/api/Sucursal/", new StringContent(json, Encoding.UTF8, "application/json"));
+                    response.Wait();
+
+                    if (!response.Result.IsSuccessStatusCode)
+                    {
+                        throw new Exception();
+
+                    }
+
+                }
                 // TODO: Add insert logic here
 
                 return RedirectToAction("Index");

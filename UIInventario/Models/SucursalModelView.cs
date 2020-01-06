@@ -7,5 +7,8 @@ namespace UIInventario.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public List<ProductoViewModel> Productos { get; set; }
+          
+        public string Direccion { get; set; }
+        public string Zona { get; set; }
     }
 }

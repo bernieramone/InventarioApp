@@ -51,7 +51,7 @@ namespace UIInventario.Controllers
                 var readLstSucursal = inventarios.Result.Content.ReadAsStringAsync();
                 var lstSucursalesUnorder = JsonSerializer.Deserialize<List<SucursalModelView>>(readLstSucursal.Result);
                 var sucursales = lstSucursalesUnorder.GroupBy(x => new { x.Id, x.Nombre });
-                              
+
 
                 foreach (var sucursal in sucursales)
                 {
@@ -71,14 +71,12 @@ namespace UIInventario.Controllers
                         var producto = item.Productos.Where(x => x.IdSucursal == sucursal.Id).FirstOrDefault();
                         if (producto != null)
                         {
-                            sucursal.Productos.Add(producto); 
+                            sucursal.Productos.Add(producto);
                         }
                     }
 
                 }
-
-              
-#region pruebas
+                #region pruebas
 
                 //GroupBy(r=> new {pp1 =  r.Field<int>("col1"), pp2 = r.Field<int>("col2")});
 
@@ -134,13 +132,78 @@ namespace UIInventario.Controllers
                 //    sucursalModelView.Productos.Add(productoModel);
 
                 //}
-# endregion pruebas
-
+                #endregion pruebas
             }
 
-           ViewBag.IdSucursales = lstSucursales.GroupBy(x => x.Id).ToList();
+            ViewBag.IdSucursales = lstSucursales.GroupBy(x => x.Id).ToList();
 
             return View(lstSucursales);
+        }
+
+        public ActionResult Create()
+        {
+            List<SucursalModelView> lstSucursales = new List<SucursalModelView>();
+
+            using (var client = new HttpClient())
+            {
+                var inventarios = client.GetAsync("http://localhost:50647/api/Inventario/");
+                inventarios.Wait();
+
+                if (!inventarios.Result.IsSuccessStatusCode)
+                {
+                    throw new Exception();
+                }
+
+                var readLstSucursal = inventarios.Result.Content.ReadAsStringAsync();
+                lstSucursales = JsonSerializer.Deserialize<List<SucursalModelView>>(readLstSucursal.Result);
+                var sucursales = lstSucursales.GroupBy(x => new { x.Id, x.Nombre });
+
+                List<SelectListItem> ddlSucursales = new List<SelectListItem>();
+
+                foreach (var item in sucursales)
+                {
+                    ddlSucursales.Add(new SelectListItem
+                    {
+                        Text = item.Key.Nombre,
+                        Value = item.Key.Id.ToString()
+                    });
+
+                }
+
+                ViewBag.Sucursales = ddlSucursales;
+
+
+
+                //foreach (var sucursal in sucursales)
+                //{
+                //    lstSucursales.Add(new SucursalModelView
+                //    {
+                //        Id = sucursal.Key.Id,
+                //        Nombre = sucursal.Key.Nombre,
+                //        Productos = new List<ProductoViewModel>()
+                //    });
+
+                //}
+
+                //foreach (var sucursal in lstSucursales)
+                //{
+                //    foreach (var item in lstSucursalesUnorder)
+                //    {
+                //        var producto = item.Productos.Where(x => x.IdSucursal == sucursal.Id).FirstOrDefault();
+                //        if (producto != null)
+                //        {
+                //            sucursal.Productos.Add(producto);
+                //        }
+                //    }
+
+                //}
+            }
+
+           // ViewBag.IdSucursales = lstSucursales.GroupBy(x => x.Id).ToList();
+
+            //return View(lstSucursales);
+
+            return View();
         }
     }
 }

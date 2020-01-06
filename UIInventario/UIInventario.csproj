@@ -157,6 +157,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InventarioViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductoViewModel.cs" />
     <Compile Include="Models\SucursalModelView.cs" />
@@ -302,6 +303,7 @@
     <Content Include="Views\Productos\Index.cshtml" />
     <Content Include="Views\Sucursales\Index.cshtml" />
     <Content Include="Views\Sucursales\Create.cshtml" />
+    <Content Include="Views\Inventario\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

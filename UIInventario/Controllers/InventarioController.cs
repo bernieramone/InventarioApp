@@ -149,54 +149,21 @@ namespace UIInventario.Controllers
                 var inventarios = client.GetAsync("http://localhost:50647/api/Inventario/");
                 inventarios.Wait();
 
+                var productos = client.GetAsync("http://localhost:50647/api/Product/");
+                productos.Wait();
+
+                var sucursales = client.GetAsync("http://localhost:50647/api/Sucursal/");
+                sucursales.Wait();
+
+
+
+
                 if (!inventarios.Result.IsSuccessStatusCode)
                 {
                     throw new Exception();
                 }
 
-                var readLstSucursal = inventarios.Result.Content.ReadAsStringAsync();
-                lstSucursales = JsonSerializer.Deserialize<List<SucursalModelView>>(readLstSucursal.Result);
-                var sucursales = lstSucursales.GroupBy(x => new { x.Id, x.Nombre });
-
-                List<SelectListItem> ddlSucursales = new List<SelectListItem>();
-
-                foreach (var item in sucursales)
-                {
-                    ddlSucursales.Add(new SelectListItem
-                    {
-                        Text = item.Key.Nombre,
-                        Value = item.Key.Id.ToString()
-                    });
-
-                }
-
-                ViewBag.Sucursales = ddlSucursales;
-
-
-
-                //foreach (var sucursal in sucursales)
-                //{
-                //    lstSucursales.Add(new SucursalModelView
-                //    {
-                //        Id = sucursal.Key.Id,
-                //        Nombre = sucursal.Key.Nombre,
-                //        Productos = new List<ProductoViewModel>()
-                //    });
-
-                //}
-
-                //foreach (var sucursal in lstSucursales)
-                //{
-                //    foreach (var item in lstSucursalesUnorder)
-                //    {
-                //        var producto = item.Productos.Where(x => x.IdSucursal == sucursal.Id).FirstOrDefault();
-                //        if (producto != null)
-                //        {
-                //            sucursal.Productos.Add(producto);
-                //        }
-                //    }
-
-                //}
+                
             }
 
            // ViewBag.IdSucursales = lstSucursales.GroupBy(x => x.Id).ToList();
